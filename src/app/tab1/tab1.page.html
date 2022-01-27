@@ -1,17 +1,8 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <swiper [config]="config" effect="fade">
+  <ng-template swiperSlide *ngFor="let pelicula of peliculasRecientes">
+    <img [src]="pelicula.backdrop_path | imagen" alt="">
+  </ng-template>
+ </swiper>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
 </ion-content>
