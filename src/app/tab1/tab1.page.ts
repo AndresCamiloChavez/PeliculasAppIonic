@@ -10,13 +10,6 @@ import { SwiperOptions } from 'swiper';
 })
 export class Tab1Page implements OnInit {
   peliculasRecientes: Pelicula[] = [];
-  config: SwiperOptions = {
-    slidesPerView: 1.3,
-    spaceBetween: 15,
-    pagination: { clickable: true },
-    scrollbar: { draggable: true, },
-    fadeEffect: {crossFade: true}
-  };
   constructor(private movieService: MoviesService) {}
   ngOnInit(): void {
     this.movieService.getFeature().subscribe(( data: RespuestaMDB )=> {
