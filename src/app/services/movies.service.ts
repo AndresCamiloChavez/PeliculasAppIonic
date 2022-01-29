@@ -14,7 +14,9 @@ export class MoviesService {
   constructor(private http: HttpClient) { }
 
 
-
+  buscarPelicula(query: string){
+    return this.ejecutarQuery<RespuestaMDB>('/search/movie?a=0', query);
+  }
   getMovieDetalle(id: string){
     return this.ejecutarQuery<PeliculaDetalle>(`/movie/${id}?a=1`);
   }
@@ -42,9 +44,9 @@ export class MoviesService {
     const fin = `${hoy.getFullYear()}-${mesString}-${ultimaDia}`;
     return this.ejecutarQuery<RespuestaMDB>(`/discover/movie?primary_realse_date.gte=${inicio}&primary_realse_date.lte=${fin}`);
   }
-  private ejecutarQuery<T>(query: string){
+  private ejecutarQuery<T>(query: string, valueBusqueda?: string){
     query = URL+query;
-    query += apiKey+`&api_key=${apiKey}&language=es-ES&include_image_language=es`;
+    query += apiKey+`&api_key=${apiKey}&language=es-ES&include_image_language=es&query=${valueBusqueda}`;
     return this.http.get<T>(query);
   }
 }
