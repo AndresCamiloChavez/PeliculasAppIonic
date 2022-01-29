@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { SwiperOptions } from 'swiper';
 import { Pelicula } from '../../models/intefaces/interfaces';
+import { DetalleComponent } from '../detalle/detalle.component';
 
 @Component({
   selector: 'app-slideshow-backdrop',
@@ -16,8 +18,17 @@ export class SlideshowBackdropComponent implements OnInit {
     scrollbar: { draggable: true, },
     fadeEffect: {crossFade: true}
   };
-  constructor() { }
+  constructor(private modalController: ModalController) { }
 
   ngOnInit() {}
 
+  async verDetalle(id: string){
+    const modal = await this.modalController.create({
+      component: DetalleComponent,
+      componentProps: {
+        id
+      }
+    });
+    modal.present();
+  }
 }

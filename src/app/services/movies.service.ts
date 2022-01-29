@@ -17,7 +17,7 @@ export class MoviesService {
     this.popularesPage++;
     // const query = `/discover/movie?sort_by=popularity.desc&page=${this.popularesPage}`;
     // eslint-disable-next-line max-len
-    return this.http.get<RespuestaMDB>(`https://api.themoviedb.org/3/discover/movie?api_key=ce7a13d89ea2285f4f0b67dc91ce8d7c&language=es-COP&page=${this.popularesPage}&include_image_llaguage=es&primary_realse_date.gte=2022-01-1&primary_realse_date.lte=2022-02-1`);
+    return this.http.get<RespuestaMDB>(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=${this.popularesPage}`);
   }
   getFeature(){
     const hoy = new Date();

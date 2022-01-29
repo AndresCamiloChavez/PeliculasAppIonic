@@ -1,5 +1,7 @@
 <swiper [config]="config">
   <ng-template swiperSlide *ngFor="let pelicula of peliculas">
-    <img class="poster" [src]="pelicula.poster_path | imagen" alt="">
+    <ion-card (click)="verDetalle(pelicula.id.toString())">
+      <img class="poster" [src]="pelicula.poster_path | imagen" alt="">
+    </ion-card>
   </ng-template>
 </swiper>
