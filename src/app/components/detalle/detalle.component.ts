@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MoviesService } from '../../services/movies.service';
 import { Cast, PeliculaDetalle } from '../../models/intefaces/interfaces';
 import { SwiperOptions } from 'swiper';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { DataLocalService } from '../../services/data-local.service';
 
 @Component({
@@ -15,6 +15,7 @@ export class DetalleComponent implements OnInit {
   pelicula: PeliculaDetalle = {};
   oculto = 150;
   actores: Cast[] = [];
+  isFavorite = false;
   config: SwiperOptions = {
     slidesPerView: 2.4,
     spaceBetween: -5,
@@ -26,10 +27,13 @@ export class DetalleComponent implements OnInit {
   constructor(
     private movieService: MoviesService,
     private modalController: ModalController,
-    private dataLocal: DataLocalService
+    private dataLocal: DataLocalService,
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    const existe = await this.dataLocal.existePelicula(this.id);
+    this.isFavorite = existe;
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     this.movieService.getMovieDetalle(this.id).subscribe((data) => {
       this.pelicula = data;
     });
@@ -43,5 +47,6 @@ export class DetalleComponent implements OnInit {
   }
   favorito() {
     this.dataLocal.guardarPelicula(this.pelicula);
+    this.isFavorite = !this.isFavorite;
   }
 }
