@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Query } from '@angular/core';
-import { RespuestaMDB } from '../models/intefaces/interfaces';
+import { RespuestaMDB, PeliculaDetalle, RespuestaCredits } from '../models/intefaces/interfaces';
 import { environment } from '../../environments/environment';
 
 const URL = environment.url;
@@ -13,11 +13,20 @@ export class MoviesService {
 
   constructor(private http: HttpClient) { }
 
+
+
+  getMovieDetalle(id: string){
+    return this.ejecutarQuery<PeliculaDetalle>(`/movie/${id}?a=1`);
+  }
+  getActorePelicula(id: string){
+    return this.ejecutarQuery<RespuestaCredits>(`/movie/${id}/credits?a=1`);
+  }
+
   getPopular(){
     this.popularesPage++;
     // const query = `/discover/movie?sort_by=popularity.desc&page=${this.popularesPage}`;
     // eslint-disable-next-line max-len
-    return this.http.get<RespuestaMDB>(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=${this.popularesPage}`);
+    return this.http.get<RespuestaMDB>(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=es-COP&page=${this.popularesPage}`);
   }
   getFeature(){
     const hoy = new Date();
@@ -35,7 +44,7 @@ export class MoviesService {
   }
   private ejecutarQuery<T>(query: string){
     query = URL+query;
-    query += apiKey+`&api_key=${apiKey}&language=es-COP&include_image_language=es`;
+    query += apiKey+`&api_key=${apiKey}&language=es-ES&include_image_language=es`;
     return this.http.get<T>(query);
   }
 }
