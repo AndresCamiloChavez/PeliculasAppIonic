@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Pelicula } from 'src/app/models/intefaces/interfaces';
 import { SwiperOptions } from 'swiper';
 
@@ -9,9 +9,11 @@ import { SwiperOptions } from 'swiper';
 })
 export class SlideshowParesComponent implements OnInit {
   @Input() peliculas: Pelicula[] =[];
+  @Output() cargarMas = new EventEmitter();
   config: SwiperOptions = {
     slidesPerView: 3.4,
-    spaceBetween: -10,
+    spaceBetween: 5  ,
+    navigation: true,
     pagination: { clickable: true },
     scrollbar: { draggable: true, },
     fadeEffect: {crossFade: true}
@@ -19,5 +21,8 @@ export class SlideshowParesComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {}
+  onClick(){
+    this.cargarMas.emit();
+  }
 
 }
