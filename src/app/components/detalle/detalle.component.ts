@@ -3,6 +3,7 @@ import { MoviesService } from '../../services/movies.service';
 import { Cast, PeliculaDetalle } from '../../models/intefaces/interfaces';
 import { SwiperOptions } from 'swiper';
 import { ModalController } from '@ionic/angular';
+import { DataLocalService } from '../../services/data-local.service';
 
 @Component({
   selector: 'app-detalle',
@@ -19,25 +20,28 @@ export class DetalleComponent implements OnInit {
     spaceBetween: -5,
     freeMode: true,
     pagination: { clickable: true },
-    scrollbar: { draggable: true, },
-    fadeEffect: {crossFade: true}
+    scrollbar: { draggable: true },
+    fadeEffect: { crossFade: true },
   };
-  constructor(private movieService: MoviesService, private modalController: ModalController) { }
+  constructor(
+    private movieService: MoviesService,
+    private modalController: ModalController,
+    private dataLocal: DataLocalService
+  ) {}
 
   ngOnInit() {
-    this.movieService.getMovieDetalle(this.id).subscribe(data => {
+    this.movieService.getMovieDetalle(this.id).subscribe((data) => {
       this.pelicula = data;
     });
-    this.movieService.getActorePelicula(this.id).subscribe(data => {
+    this.movieService.getActorePelicula(this.id).subscribe((data) => {
       this.actores = data.cast;
     });
   }
 
-
-  regresar(){
+  regresar() {
     this.modalController.dismiss();
   }
-  favorito(){
-
+  favorito() {
+    this.dataLocal.guardarPelicula(this.pelicula);
   }
 }
