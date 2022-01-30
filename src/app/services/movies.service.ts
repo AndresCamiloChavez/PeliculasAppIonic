@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Query } from '@angular/core';
-import { RespuestaMDB, PeliculaDetalle, RespuestaCredits } from '../models/intefaces/interfaces';
+import { RespuestaMDB, PeliculaDetalle, RespuestaCredits, Genre } from '../models/intefaces/interfaces';
 import { environment } from '../../environments/environment';
 
 const URL = environment.url;
@@ -10,6 +10,8 @@ const apiKey = environment.apiKey;
 })
 export class MoviesService {
   private popularesPage = 0;
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  generos: Genre[] = [];
 
   constructor(private http: HttpClient) { }
 
@@ -43,6 +45,15 @@ export class MoviesService {
     const inicio = `${hoy.getFullYear()}-${mesString}-01`;
     const fin = `${hoy.getFullYear()}-${mesString}-${ultimaDia}`;
     return this.ejecutarQuery<RespuestaMDB>(`/discover/movie?primary_realse_date.gte=${inicio}&primary_realse_date.lte=${fin}`);
+  }
+  cargarGeneros(): Promise<Genre[]>{
+    return new Promise(resolve => {
+      this.ejecutarQuery<any>(`/genre/movie/list?a=1`).subscribe((data) =>{
+          this.generos = data.genres;
+          console.log(this.generos);
+          resolve(this.generos);
+      });
+    });
   }
   private ejecutarQuery<T>(query: string, valueBusqueda?: string){
     query = URL+query;
